@@ -26,3 +26,12 @@ def mostrar(id):
     }
     ultimo_correo=Email.un_correo(data)
     return render_template('mostrar.html', todos_los_correos=todos_los_correos, ultimo_correo=ultimo_correo)
+
+@app.route ("/eliminar/<int:id>")
+def eliminar_correo( id):
+    data={
+        "id":id
+    }
+    Email.eliminar_correo_existente(data)
+    
+    return redirect ('/')

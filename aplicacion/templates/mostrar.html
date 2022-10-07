@@ -20,6 +20,7 @@
                 <th>Direccion</th>
                 <th>Creado en</th>
                 <th>Actualizado en</th>
+                <th>Accion</th>
             </tr>
             {% for correo in todos_los_correos%}
             <tr>
@@ -28,6 +29,7 @@
                 <td>{{correo.email}}</td>
                 <td>{{correo.created_at}}</td>
                 <td>{{correo.updated_at}}</td>
+                <td><a href="/eliminar/{{correo.id}}">Eliminar</a></td>
             </tr>
             {% endfor %}
         </table>

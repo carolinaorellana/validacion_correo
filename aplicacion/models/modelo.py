@@ -24,7 +24,6 @@ class Email:
         return todos_correos
 
     #obntener un solo correo
-    #obtener todos los correos
     @classmethod
     def un_correo(cls, data):
         consulta = "SELECT * FROM correos WHERE id = %(id)s"
@@ -38,13 +37,32 @@ class Email:
         consulta = "INSERT INTO correos (direccion_correo) VALUES (%(direccion_correo)s);"
         resultado = connectToMySQL(cls.base_datos).query_db(consulta,data)
         return resultado
+
+
+    #obntener un solo correo
+    @classmethod
+    def revisar_correo_existente(cls, data):
+        consulta = "SELECT * FROM correos WHERE direccion_correo = %(direccion_correo)s"
+        resultado= connectToMySQL (cls.base_datos).query_db(consulta,data)
+        return resultado
     
+    #Eliminar un correo de la base de datos
+    @classmethod
+    def eliminar_correo_existente(cls, data):
+        consulta = "DELETE FROM correos WHERE correos.id = %(id)s"
+        resultado= connectToMySQL (cls.base_datos).query_db(consulta,data)
+        return resultado
+
     @staticmethod
     def validar_correo(correo):
         is_valid = True
         # prueba si un campo coincide con el patrón
         if not EMAIL_REGEX.match(correo['direccion_correo']): 
             flash("Invalid email address!")
+            is_valid = False
+
+        if len(Email.revisar_correo_existente(correo))>0:
+            flash("Invalid email address ya existe!")
             is_valid = False
         return is_valid
 
